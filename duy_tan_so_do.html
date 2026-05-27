@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Duy Tân Thập Kiệt — Sơ đồ nhân vật</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@300;400;500&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1410;
+  --paper: #f7f3eb;
+  --paper2: #ede8dc;
+  --gold: #b8860b;
+  --gold-light: #d4a017;
+  --red: #8b1a1a;
+  --purple: #4a3060;
+  --teal: #1a5c4a;
+  --gray: #6b6560;
+  --g1-bg: #f0edf8; --g1-border: #9b8ec4; --g1-text: #3a2550;
+  --g2-bg: #fdf0ee; --g2-border: #c97060; --g2-text: #7a1818;
+  --g3-bg: #e8f5f0; --g3-border: #5aaa88; --g3-text: #145040;
+  --conn: #aaa098;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--paper); color:var(--ink); font-family:'Noto Sans JP',sans-serif; font-weight:300; }
+
+/* HERO */
+.hero {
+  background:var(--ink); color:var(--paper);
+  padding:48px 20px 36px; text-align:center;
+  position:relative; overflow:hidden;
+}
+.hero::before {
+  content:''; position:absolute; inset:0;
+  background:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(255,255,255,0.015) 40px,rgba(255,255,255,0.015) 41px);
+}
+.hero-eyebrow { font-size:10px; letter-spacing:.35em; color:var(--gold-light); margin-bottom:14px; text-transform:uppercase; }
+.hero-jp { font-family:'Noto Serif JP',serif; font-size:clamp(28px,6vw,48px); color:var(--gold-light); letter-spacing:.25em; margin-bottom:6px; }
+.hero-vi { font-family:'Playfair Display',serif; font-size:clamp(22px,5vw,38px); font-weight:700; margin-bottom:16px; }
+.hero-desc { font-size:12px; color:rgba(245,240,232,.55); max-width:440px; margin:0 auto; line-height:1.8; }
+
+/* DIAGRAM */
+.diagram { max-width:700px; margin:0 auto; padding:28px 16px 60px; }
+
+/* GROUP LABEL */
+.group-label {
+  display:flex; align-items:center; gap:10px; margin-bottom:14px;
+}
+.glabel-badge {
+  font-size:10px; font-weight:500; letter-spacing:.08em;
+  padding:5px 12px; border-radius:20px; white-space:nowrap;
+}
+.glabel-line { flex:1; height:1px; }
+.glabel-sub { font-size:11px; color:var(--gray); font-style:italic; white-space:nowrap; }
+
+/* PERSON ROW */
+.person-row { display:flex; gap:10px; margin-bottom:8px; justify-content:center; flex-wrap:wrap; }
+
+/* PERSON CARD */
+.pcard {
+  background:white; border-radius:14px; border:1.5px solid;
+  padding:14px 12px 12px;
+  cursor:pointer; transition:transform .18s, box-shadow .18s;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  width:190px; position:relative;
+}
+.pcard:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,0,0,.1); }
+
+.pcard-photo {
+  width:72px; height:72px; border-radius:50%; overflow:hidden;
+  border:2px solid; flex-shrink:0;
+  background:#ddd; display:flex; align-items:center; justify-content:center;
+}
+.pcard-photo img { width:100%; height:100%; object-fit:cover; object-position:top center; }
+.pcard-photo-fallback { font-size:22px; font-family:'Noto Serif JP',serif; }
+
+.pcard-body { text-align:center; }
+.pcard-name { font-size:13px; font-weight:500; line-height:1.3; margin-bottom:2px; }
+.pcard-kanji { font-family:'Noto Serif JP',serif; font-size:13px; margin-bottom:4px; }
+.pcard-role-vi { font-size:11px; margin-bottom:1px; }
+.pcard-role-jp { font-size:10px; color:var(--gray); font-style:italic; }
+
+.pcard-fate {
+  font-size:10px; font-weight:500; padding:3px 8px; border-radius:10px; margin-top:2px;
+}
+.fate-red { background:#fdf0ee; color:#a02020; }
+.fate-gray { background:#f0eeea; color:#6b6560; }
+.fate-green { background:#e8f5f0; color:#145040; }
+
+/* CONNECTOR SECTION */
+.conn-section { display:flex; flex-direction:column; align-items:center; margin:4px 0; }
+.conn-line { width:2px; height:28px; background:var(--conn); }
+.conn-label { font-size:10px; color:var(--gray); background:var(--paper); padding:2px 8px; border:1px solid #ddd; border-radius:10px; margin:0 0 2px; }
+.conn-arrow { font-size:14px; color:var(--conn); margin-top:-4px; }
+
+.conn-h-row { display:flex; align-items:center; justify-content:center; gap:0; margin:8px 0; }
+.conn-h-line { height:2px; width:40px; background:var(--conn); }
+.conn-h-label { font-size:10px; color:var(--gray); background:var(--paper); padding:2px 8px; border:1px solid #ddd; border-radius:10px; white-space:nowrap; }
+.conn-h-arrow { font-size:14px; color:var(--conn); }
+
+/* CONFLICT ARC */
+.conflict-note {
+  text-align:center; font-size:11px; color:#a02020;
+  border:1px dashed #e8a090; border-radius:20px;
+  padding:5px 16px; margin:6px auto 10px; display:inline-block;
+  background:#fff8f7;
+}
+
+/* SECTION SEPARATOR */
+.section-gap { height:28px; }
+
+/* GROUP WRAPPERS */
+.g1 .pcard { border-color:var(--g1-border); }
+.g1 .pcard-photo { border-color:var(--g1-border); }
+.g1 .pcard-name, .g1 .pcard-kanji { color:var(--g1-text); }
+.g1 .pcard-role-vi { color:var(--g1-text); }
+.g1 .glabel-badge { background:var(--g1-bg); color:var(--g1-text); }
+.g1 .glabel-line { background:var(--g1-border); }
+
+.g2 .pcard { border-color:var(--g2-border); }
+.g2 .pcard-photo { border-color:var(--g2-border); }
+.g2 .pcard-name, .g2 .pcard-kanji { color:var(--g2-text); }
+.g2 .pcard-role-vi { color:var(--g2-text); }
+.g2 .glabel-badge { background:var(--g2-bg); color:var(--g2-text); }
+.g2 .glabel-line { background:var(--g2-border); }
+
+.g3 .pcard { border-color:var(--g3-border); }
+.g3 .pcard-photo { border-color:var(--g3-border); }
+.g3 .pcard-name, .g3 .pcard-kanji { color:var(--g3-text); }
+.g3 .pcard-role-vi { color:var(--g3-text); }
+.g3 .glabel-badge { background:var(--g3-bg); color:var(--g3-text); }
+.g3 .glabel-line { background:var(--g3-border); }
+
+/* MODAL */
+.modal-overlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(26,20,16,.7); z-index:200;
+  align-items:center; justify-content:center; padding:16px;
+}
+.modal-overlay.open { display:flex; }
+.modal {
+  background:var(--paper); border-radius:18px; max-width:520px; width:100%;
+  max-height:90vh; overflow-y:auto; position:relative;
+}
+.modal-header {
+  padding:24px 20px 16px; border-bottom:1px solid rgba(0,0,0,.08);
+  display:flex; gap:16px; align-items:flex-start;
+}
+.modal-photo {
+  width:80px; height:80px; border-radius:50%; overflow:hidden;
+  border:2px solid var(--gold); flex-shrink:0;
+  background:#ddd;
+}
+.modal-photo img { width:100%; height:100%; object-fit:cover; object-position:top center; }
+.modal-titles { flex:1; }
+.modal-group { font-size:10px; font-weight:500; letter-spacing:.1em; padding:3px 10px; border-radius:10px; display:inline-block; margin-bottom:8px; }
+.modal-name { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; line-height:1.2; }
+.modal-kanji { font-family:'Noto Serif JP',serif; font-size:18px; color:var(--gold); margin-bottom:4px; }
+.modal-role-vi { font-size:12px; color:var(--gray); }
+.modal-role-jp { font-size:11px; color:var(--gray); font-style:italic; }
+
+.modal-body { padding:16px 20px 24px; }
+.modal-section { margin-bottom:18px; }
+.modal-section-title {
+  font-size:10px; letter-spacing:.15em; text-transform:uppercase;
+  color:var(--gold); font-weight:500; margin-bottom:8px;
+}
+.modal-section-title-jp { font-size:10px; color:var(--gray); font-style:italic; margin-bottom:6px; display:block; }
+.modal-text-vi { font-size:13px; line-height:1.8; color:#2a2520; margin-bottom:6px; }
+.modal-text-jp { font-size:12px; line-height:1.8; color:var(--gray); border-left:2px solid var(--paper2); padding-left:10px; }
+.modal-quote {
+  background:var(--paper2); border-radius:10px; padding:14px 16px;
+  margin:12px 0; border-left:3px solid var(--gold);
+}
+.modal-quote-text { font-size:13px; font-style:italic; line-height:1.7; margin-bottom:4px; }
+.modal-quote-jp { font-size:12px; color:var(--gray); font-family:'Noto Serif JP',serif; }
+.modal-quote-attr { font-size:11px; color:var(--gray); margin-top:6px; }
+.modal-fate-box { border-radius:10px; padding:12px 14px; font-size:12px; line-height:1.6; margin-top:8px; }
+.modal-close {
+  position:absolute; top:12px; right:14px;
+  background:none; border:none; font-size:22px; color:var(--gray); cursor:pointer; line-height:1;
+}
+.modal-close:hover { color:var(--ink); }
+
+/* LEGEND */
+.legend {
+  max-width:700px; margin:0 auto 48px; padding:0 16px;
+}
+.legend-inner {
+  border:1px solid rgba(0,0,0,.1); border-radius:14px; padding:16px 20px;
+  background:white;
+}
+.legend-title { font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:var(--gold); font-weight:500; margin-bottom:12px; }
+.legend-row { display:flex; align-items:center; gap:10px; margin-bottom:8px; font-size:12px; color:var(--gray); }
+.legend-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+.legend-dashed { width:30px; height:2px; border-top:2px dashed var(--conn); flex-shrink:0; }
+.legend-solid { width:30px; height:2px; background:var(--conn); flex-shrink:0; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-eyebrow">Nguyễn Tiến Lực · Omega+ · Minh Trị Duy Tân</div>
+  <div class="hero-jp">維新十傑</div>
+  <div class="hero-vi">Duy Tân Thập Kiệt</div>
+  <div class="hero-desc">Mười nhân vật kiệt xuất của Minh Trị Duy Tân — cuộc cách mạng đưa Nhật Bản từ phong kiến lên cường quốc thế giới trong 50 năm.<br><span style="font-size:11px;opacity:.7">明治維新を成し遂げた十人の傑物たち</span></div>
+</div>
+
+<div class="diagram">
+
+  <!-- GROUP 1 -->
+  <div class="g1">
+    <div class="group-label">
+      <span class="glabel-badge">Nền móng đảo Mạc · 討幕の礎</span>
+      <div class="glabel-line"></div>
+      <span class="glabel-sub">tầm nhìn trước thời đại</span>
+    </div>
+    <div class="person-row">
+      <div class="pcard" onclick="openModal(0)">
+        <div class="pcard-photo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Yoshida_Shoin_Portrait.jpg/220px-Yoshida_Shoin_Portrait.jpg" alt="Yoshida Shoin" onerror="this.parentNode.innerHTML='<span class=pcard-photo-fallback>松</span>'">
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-name">Yoshida Shōin</div>
+          <div class="pcard-kanji">吉田松陰</div>
+          <div class="pcard-role-vi">Thầy giáo cách mạng</div>
+          <div class="pcard-role-jp">革命の師</div>
+          <div class="pcard-fate fate-red">Bị chém · 29 tuổi · 1859</div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:0;flex-direction:column;justify-content:center;padding-top:20px;">
+        <div class="conn-h-row">
+          <div class="conn-h-line" style="border-top:2px dashed var(--conn);background:none;"></div>
+          <div class="conn-h-label">liên minh · 連携</div>
+          <div class="conn-h-line" style="border-top:2px dashed var(--conn);background:none;width:20px;"></div>
+          <div style="font-size:13px;color:var(--conn);">›</div>
+        </div>
+      </div>
+
+      <div class="pcard" onclick="openModal(1)">
+        <div class="pcard-photo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Sakamoto_Ryoma.jpg/220px-Sakamoto_Ryoma.jpg" alt="Sakamoto Ryoma" onerror="this.parentNode.innerHTML='<span class=pcard-photo-fallback>龍</span>'">
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-name">Sakamoto Ryōma</div>
+          <div class="pcard-kanji">坂本龍馬</div>
+          <div class="pcard-role-vi">Kiến trúc liên minh</div>
+          <div class="pcard-role-jp">薩長同盟の立役者</div>
+          <div class="pcard-fate fate-red">Bị ám sát · 31t · 1867</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONNECTOR DOWN -->
+  <div class="conn-section">
+    <div class="conn-line" style="border-left:2px dashed var(--g1-border);background:none;"></div>
+    <div class="conn-label" style="color:var(--g1-text);border-color:var(--g1-border);">đào tạo · 育成</div>
+    <div class="conn-arrow" style="color:var(--g1-border);">↓</div>
+  </div>
+
+  <!-- GROUP 2 -->
+  <div class="g2">
+    <div class="group-label">
+      <span class="glabel-badge">Duy Tân Tam Kiệt · 維新三傑</span>
+      <div class="glabel-line"></div>
+      <span class="glabel-sub">lật đổ Mạc phủ & khai mở Minh Trị</span>
+    </div>
+    <div class="person-row">
+      <div class="pcard" onclick="openModal(2)">
+        <div class="pcard-photo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Saigo_Takamori_%28Edited%29.jpg/220px-Saigo_Takamori_%28Edited%29.jpg" alt="Saigo Takamori" onerror="this.parentNode.innerHTML='<span class=pcard-photo-fallback>隆</span>'">
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-name">Saigō Takamori</div>
+          <div class="pcard-kanji">西郷隆盛</div>
+          <div class="pcard-role-vi">Trái tim Duy Tân</div>
+          <div class="pcard-role-jp">維新の心</div>
+          <div class="pcard-fate fate-red">Tự sát · 51t · 1877</div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:20px;gap:2px;">
+        <div class="conn-h-row">
+          <div class="conn-h-line"></div>
+          <div class="conn-h-label">bạn thân · 幼馴染</div>
+          <div class="conn-h-line"></div>
+          <div style="font-size:13px;color:var(--conn);">›</div>
+        </div>
+        <div style="font-size:10px;color:#a02020;margin-top:2px;">→ xung đột · 対立</div>
+      </div>
+
+      <div class="pcard" onclick="openModal(3)">
+        <div class="pcard-photo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Okubo_Toshimichi.jpg/220px-Okubo_Toshimichi.jpg" alt="Okubo Toshimichi" onerror="this.parentNode.innerHTML='<span class=pcard-photo-fallback>利</span>'">
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-name">Ōkubo Toshimichi</div>
+          <div class="pcard-kanji">大久保利通</div>
+          <div class="pcard-role-vi">Khối óc Duy Tân</div>
+          <div class="pcard-role-jp">維新の頭脳</div>
+          <div class="pcard-fate fate-red">Bị ám sát · 47t · 1878</div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:20px;">
+        <div class="conn-h-row">
+          <div class="conn-h-line"></div>
+          <div class="conn-h-label">Tam Kiệt · 三傑</div>
+          <div class="conn-h-line"></div>
+          <div style="font-size:13px;color:var(--conn);">›</div>
+        </div>
+      </div>
+
+      <div class="pcard" onclick="openModal(4)">
+        <div class="pcard-photo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Kido_Takayoshi_02.jpg/220px-Kido_Takayoshi_02.jpg" alt="Kido Takayoshi" onerror="this.parentNode.innerHTML='<span class=pcard-photo-fallback>孝</span>'">
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-name">Kidō Takayoshi</div>
+          <div class="pcard-kanji">木戸孝允</div>
+          <div class="pcard-role-vi">Thề 5 điều</div>
+          <div class="pcard-role-jp">五箇条の御誓文</div>
+          <div class="pcard-fate fate-gray">Mất vì bệnh · 43t · 1877</div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin:8px 0 4px;">
+      <span class="conflict-note">⚡ Saigō nổi loạn 1877 — Ōkubo ra lệnh dẹp · 西南戦争</span>
+    </div>
+  </div>
+
+  <!-- CONNECTOR DOWN -->
+  <div class="conn-section">
+    <div class="conn-line" style="border-left:2px solid var(--g3-border);background:none;"></div>
+    <div class="conn-label" style="color:var(--g3-text);border-color:var(--g3-border);">xây dựng nhà nước · 国家建設</div>
+    <div class="conn-arrow" style="color:var(--g3-border);">↓</div>
+  </div>
+
+  <!-- GROUP 3 -->
+  <div class="g3">
+    <div class="group-label">
+      <span class="glabel-badge">Duy Tân Ngũ Kiệt Mới · 新維新五傑</span>
+      <div class="glabel-line"></div>
+      <span class="glabel-sub">xây dựng nước Nhật hiện đại</span>
+    </div>
+
+    <!-- Row 1 -->
+    <div class="person-row">
+      <div class="pcard" onclick="openModal(5)">
+        <div class="pcard-photo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Iwakura_Tomomi.jpg/220px-Iwakura_Tomomi.jpg" alt="Iwakura Tomomi" onerror="this.parentNode.innerHTML='<span class=pcard-photo-fallback>具</span>'">
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-name">Iwakura Tomomi</div>
+          <div class="pcard-kanji">岩倉具視</div>
+          <div class="pcard-role-vi">Ngoại giao & nội chính</div>
+          <div class="pcard-role-jp">外交・内政の柱</div>
+          <div class="pcard-fate fate-gray">Mất vì bệnh · 59t · 1883</div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:20px;">
+        <div class="conn-h-row">
+          <div class="conn-h-line"></div>
+          <div class="conn-h-label">sứ đoàn · 使節団</div>
+          <div class="conn-h-line"></div>
+          <div style="font-size:13px;color:var(--conn);">›</div>
+        </div>
+      </div>
+
+      <div class="pcard" onclick="openModal(6)">
+        <div class="pcard-photo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Ito_Hirobumi_official_2.jpg/220px-Ito_Hirobumi_official_2.jpg" alt="Ito Hirobumi" onerror="this.parentNode.innerHTML='<span class=pcard-photo-fallback>博</span>'">
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-name">Itō Hirobumi</div>
+          <div class="pcard-kanji">伊藤博文</div>
+          <div class="pcard-role-vi">Cha đẻ Hiến pháp</div>
+          <div class="pcard-role-jp">憲法の父</div>
+          <div class="pcard-fate fate-red">Bị ám sát · 68t · 1909</div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:20px;">
+        <div class="conn-h-row">
+          <div class="conn-h-line"></div>
+          <div class="conn-h-label">chính phủ · 政府</div>
+          <div class="conn-h-line"></div>
+          <div style="font-size:13px;color:var(--conn);">›</div>
+        </div>
+      </div>
+
+      <div class="pcard" onclick="openModal(7)">
+        <div class="pcard-photo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Okuma_Shigenobu_old.jpg/220px-Okuma_Shigenobu_old.jpg" alt="Okuma Shigenobu" onerror="this.parentNode.innerHTML='<span class=pcard-photo-fallback>重</span>'">
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-name">Ōkuma Shigenobu</div>
+          <div class="pcard-kanji">大隈重信</div>
+          <div class="pcard-role-vi">Tài chính & Waseda</div>
+          <div class="pcard-role-jp">財政・早稲田</div>
+          <div class="pcard-fate fate-gray">Mất vì bệnh · 83t · 1922</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="person-row" style="margin-top:12px;">
+      <div class="pcard" onclick="openModal(8)">
+        <div class="pcard-photo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Fukuzawa_Yukichi.jpg/220px-Fukuzawa_Yukichi.jpg" alt="Fukuzawa Yukichi" onerror="this.parentNode.innerHTML='<span class=pcard-photo-fallback>諭</span>'">
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-name">Fukuzawa Yukichi</div>
+          <div class="pcard-kanji">福沢諭吉</div>
+          <div class="pcard-role-vi">Nhà khai sáng</div>
+          <div class="pcard-role-jp">啓蒙思想家</div>
+          <div class="pcard-fate fate-gray">Mất vì bệnh · 66t · 1901</div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:20px;">
+        <div class="conn-h-row">
+          <div class="conn-h-line"></div>
+          <div class="conn-h-label">tư tưởng & kinh tế · 思想と経済</div>
+          <div class="conn-h-line"></div>
+          <div style="font-size:13px;color:var(--conn);">›</div>
+        </div>
+      </div>
+
+      <div class="pcard" onclick="openModal(9)">
+        <div class="pcard-photo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Shibusawa_Eiichi.jpg/220px-Shibusawa_Eiichi.jpg" alt="Shibusawa Eiichi" onerror="this.parentNode.innerHTML='<span class=pcard-photo-fallback>栄</span>'">
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-name">Shibusawa Eiichi</div>
+          <div class="pcard-kanji">渋沢栄一</div>
+          <div class="pcard-role-vi">Cha đẻ tư bản Nhật</div>
+          <div class="pcard-role-jp">日本資本主義の父</div>
+          <div class="pcard-fate fate-green">Thọ nhất · 91t · 1931</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-gap"></div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-inner">
+      <div class="legend-title">Chú thích · 凡例</div>
+      <div class="legend-row"><div class="legend-dot" style="background:var(--g1-border)"></div>Nhóm 1 — Nền móng đảo Mạc · 討幕の礎</div>
+      <div class="legend-row"><div class="legend-dot" style="background:var(--g2-border)"></div>Nhóm 2 — Duy Tân Tam Kiệt · 維新三傑</div>
+      <div class="legend-row"><div class="legend-dot" style="background:var(--g3-border)"></div>Nhóm 3 — Duy Tân Ngũ Kiệt Mới · 新維新五傑</div>
+      <div class="legend-row"><div class="legend-dashed"></div>Mối liên hệ gián tiếp · 間接的な繋がり</div>
+      <div class="legend-row"><div class="legend-solid"></div>Mối liên hệ trực tiếp · 直接的な繋がり</div>
+      <div class="legend-row"><span style="font-size:13px;">💡</span>Bấm vào thẻ để xem chi tiết từng người · カードをクリックで詳細表示</div>
+    </div>
+  </div>
+
+</div><!-- end diagram -->
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modalBox">
+    <button class="modal-close" onclick="closeModalDirect()">×</button>
+    <div class="modal-header">
+      <div class="modal-photo"><img id="mPhoto" src="" alt=""></div>
+      <div class="modal-titles">
+        <div class="modal-group" id="mGroup"></div>
+        <div class="modal-name" id="mName"></div>
+        <div class="modal-kanji" id="mKanji"></div>
+        <div class="modal-role-vi" id="mRoleVi"></div>
+        <div class="modal-role-jp" id="mRoleJp"></div>
+      </div>
+    </div>
+    <div class="modal-body" id="mBody"></div>
+  </div>
+</div>
+
+<script>
+const people = [
+  {
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Yoshida_Shoin_Portrait.jpg/220px-Yoshida_Shoin_Portrait.jpg",
+    group:"Nền móng đảo Mạc · 討幕の礎", gClass:"g1",
+    name:"Yoshida Shōin", kanji:"吉田松陰",
+    roleVi:"Thầy giáo cách mạng", roleJp:"革命の師",
+    tagVi:"Bị tù, bị quản thúc vẫn mở lớp dạy học. Học trò ông làm nên Duy Tân.",
+    tagJp:"投獄されながらも塾を開き、弟子たちが維新を成し遂げた。",
+    sections:[
+      {tVi:"Xuất thân & trường Shōka Sonjuku",tJp:"出自と松下村塾",
+       vi:"Sinh 1830 tại Chōshū (Yamaguchi), con nhà samurai cấp thấp. Năm 1854 bơi ra tàu Mỹ của Perry xin đi du học — bị bắt, về nước bị giam. Trong tù ông mở lớp 'Shōka Sonjuku' — căn phòng nhỏ 8 chiếu đào tạo hơn 80 học sinh không phân biệt đẳng cấp.",
+       jp:"1830年、長州藩（山口県）に下級武士の子として生まれる。1854年にペリーの船に密航を試み逮捕。投獄中に松下村塾を開き、身分を問わず80名以上を教えた。"},
+      {tVi:"Học trò làm nên lịch sử",tJp:"歴史を作った弟子たち",
+       vi:"Itō Hirobumi (soạn Hiến pháp), Yamagata Aritomo (xây quân đội), Kidō Takayoshi (Thề 5 điều) — tất cả đều là học trò Shōka Sonjuku. Một thầy giáo bị chém năm 29 tuổi nhưng tầm ảnh hưởng kéo dài cả thế kỷ.",
+       jp:"伊藤博文（憲法制定）、山縣有朋（軍隊創設）、木戸孝允（五箇条の御誓文）—すべて松下村塾の弟子。29歳で処刑されながらも、その影響は一世紀に及ぶ。"},
+    ],
+    quote:{vi:'"Biết mà không hành động thì chẳng khác gì không biết."',jp:"知を学問で得ても、行いを廃した知は真の知ではない。"},
+    fate:{type:"red",vi:"Bị Mạc phủ chém tại Edo năm 1859 — 29 tuổi. Chết trước Duy Tân 9 năm.",jp:"1859年、江戸にて幕府により斬首。29歳。維新の9年前に命を絶たれた。"}
+  },
+  {
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Sakamoto_Ryoma.jpg/220px-Sakamoto_Ryoma.jpg",
+    group:"Nền móng đảo Mạc · 討幕の礎", gClass:"g1",
+    name:"Sakamoto Ryōma", kanji:"坂本龍馬",
+    roleVi:"Kiến trúc sư liên minh", roleJp:"薩長同盟の立役者",
+    tagVi:"Samurai lãng tử kết nối hai kẻ thù truyền kiếp — không sống để thấy thành quả.",
+    tagJp:"宿敵だった薩摩と長州を結びつけたが、その成果を見ることなく倒れた。",
+    sections:[
+      {tVi:"Liên minh không thể — trở thành có thể",tJp:"不可能だった同盟を実現",
+       vi:"Satsuma và Chōshū ghét nhau hàng trăm năm. Ryōma một mình đi thuyết phục cả hai, soạn thảo liên minh Satsuma-Chōshū 1866 — liên minh đủ sức lật đổ Mạc phủ Tokugawa.",
+       jp:"薩摩と長州は百年来の宿敵。龍馬は一人で両者を説得し、1866年に薩長同盟を締結。この同盟が徳川幕府打倒の原動力となった。"},
+      {tVi:"Kaientai — doanh nghiệp hiện đại đầu tiên",tJp:"亀山社中—最初の近代的企業",
+       vi:"Ông lập Kaientai — công ty vận tải biển tư nhân đầu tiên của Nhật, hoạt động theo mô hình doanh nghiệp phương Tây. Ông vừa là nhà cách mạng vừa là doanh nhân — đi trước thời đại 100 năm.",
+       jp:"亀山社中（後の海援隊）を設立—日本初の民間商社。西洋式ビジネスモデルを採用し、革命家でありながら実業家でもあった。"},
+    ],
+    quote:{vi:'"Nhật Bản cần được tẩy rửa bằng một cơn bão lớn."',jp:"日本を今一度せんたくいたし申候"},
+    fate:{type:"red",vi:"Bị ám sát tại Kyoto tháng 12/1867 — 31 tuổi. Chỉ 1 tháng trước khi Mạc phủ sụp đổ.",jp:"1867年12月、京都にて暗殺。31歳。幕府崩壊のわずか1ヶ月前のことだった。"}
+  },
+  {
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Saigo_Takamori_%28Edited%29.jpg/220px-Saigo_Takamori_%28Edited%29.jpg",
+    group:"Duy Tân Tam Kiệt · 維新三傑", gClass:"g2",
+    name:"Saigō Takamori", kanji:"西郷隆盛",
+    roleVi:"Trái tim Duy Tân", roleJp:"維新の心",
+    tagVi:"Người làm nên Duy Tân bằng quân lực — rồi chết vì không chấp nhận kết quả của nó.",
+    tagJp:"武力で維新を成し遂げながら、その結果を受け入れられず命を落とした。",
+    sections:[
+      {tVi:"Người được dân yêu nhất",tJp:"最も民衆に愛された人",
+       vi:"Sinh 1827 tại Kagoshima, samurai nghèo. Từ nhỏ sống gần nông dân, hiểu người dưới đáy xã hội. Thể hình vạm vỡ, tính cách hào phóng. Là lực lượng quân sự cốt lõi lật đổ Mạc phủ — chính ông đàm phán bàn giao thành Edo hòa bình, cứu 1 triệu dân.",
+       jp:"1827年鹿児島生まれ、貧しい武士の家。庶民の暮らしを肌で知る人物。幕府打倒の軍事的中核を担い、江戸城無血開城を交渉で実現し、百万の民を救った。"},
+      {tVi:"Nghịch lý bi kịch",tJp:"悲劇的なパラドックス",
+       vi:"Sau Duy Tân, chính phủ Minh Trị học phương Tây — mặc vest, bỏ kiếm. Saigō thấy dân nghèo bị bỏ lại, samurai mất nghề. Năm 1877 dẫn 4 vạn người nổi dậy — thất bại, bị thương nặng, ông nhờ thuộc hạ chặt đầu mình theo nghi thức samurai.",
+       jp:"明治政府の西洋化に反発。庶民が取り残され武士が職を失うのを見て、1877年に4万人を率いて挙兵。敗れ、重傷を負い、武士の作法に従い介錯を命じた。"},
+    ],
+    quote:{vi:'"Kính trời, yêu người." (敬天愛人)',jp:"敬天愛人—天を敬い、人を愛する。"},
+    fate:{type:"red",vi:"Tự sát năm 1877 — 51 tuổi. Được người Nhật yêu mến nhất trong 10 người. Chính phủ phục hồi danh dự năm 1891.",jp:"1877年自刃、51歳。10人の中で最も民衆に慕われ、1891年に名誉回復された。"}
+  },
+  {
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Okubo_Toshimichi.jpg/220px-Okubo_Toshimichi.jpg",
+    group:"Duy Tân Tam Kiệt · 維新三傑", gClass:"g2",
+    name:"Ōkubo Toshimichi", kanji:"大久保利通",
+    roleVi:"Bismarck của Nhật Bản", roleJp:"日本のビスマルク",
+    tagVi:"Bạn thân Saigō từ nhỏ. Lạnh lùng, thực dụng — xây nhà nước hiện đại bằng đầu óc.",
+    tagJp:"西郷の幼馴染。冷静で実用的—頭脳で近代国家を築いた。",
+    sections:[
+      {tVi:"Sứ đoàn Iwakura & cải cách",tJp:"岩倉使節団と改革",
+       vi:"Thành viên chủ chốt Sứ đoàn Iwakura đi khắp Mỹ và châu Âu 2 năm. Về nước tiến hành 3 cải cách lớn: phế phiên lập huyện (xóa 300 phiên cát cứ), lập Bộ Nội vụ, đầu tư công nghiệp nặng.",
+       jp:"岩倉使節団の中心人物として欧米を2年間視察。帰国後、廃藩置県（300藩の廃止）、内務省創設、重工業投資の三大改革を断行。"},
+      {tVi:"Ra lệnh đánh người bạn thân nhất",tJp:"最愛の友を討つ命令",
+       vi:"Khi Saigō nổi loạn 1877, Ōkubo với tư cách Bộ trưởng Nội vụ ra lệnh điều quân dẹp loạn. Thắng. Saigō chết. Tương truyền ông ngồi im rất lâu rồi thở dài: 'Từ nay ta không còn người bạn nào nữa.'",
+       jp:"1877年西郷が挙兵すると、内務卿として鎮圧を命令。勝利後、長い沈黙の末に「もう友人はいない」と呟いたと伝えられる。"},
+    ],
+    quote:{vi:'"為政清明 — Làm chính trị phải trong sáng và minh bạch."',jp:"為政清明—政治は清廉でなければならない。"},
+    fate:{type:"red",vi:"Bị 6 samurai Kagoshima ám sát năm 1878 — 47 tuổi. Họ trả thù cho Saigō.",jp:"1878年、鹿児島出身の6人の武士に暗殺される。47歳。西郷への復讐だった。"}
+  },
+  {
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Kido_Takayoshi_02.jpg/220px-Kido_Takayoshi_02.jpg",
+    group:"Duy Tân Tam Kiệt · 維新三傑", gClass:"g2",
+    name:"Kidō Takayoshi", kanji:"木戸孝允",
+    roleVi:"Nhà soạn thảo Thề 5 điều", roleJp:"五箇条の御誓文の起草者",
+    tagVi:"Ôn hòa nhất trong Tam Kiệt — đặt bút soạn tuyên ngôn khai mở kỷ nguyên Minh Trị.",
+    tagJp:"三傑の中で最も穏健—明治の幕開けを告げる宣言を起草した。",
+    sections:[
+      {tVi:"Thề 5 điều — tuyên ngôn Minh Trị",tJp:"五箇条の御誓文",
+       vi:"Năm 1868, ông soạn bản tuyên ngôn khai mở kỷ nguyên Minh Trị — cam kết mở hội nghị trọng dân ý, xóa tập tục lạc hậu, học hỏi tri thức toàn thế giới. Đây là nền tảng pháp lý đầu tiên của Nhật Bản mới.",
+       jp:"1868年、明治の幕開けを告げる宣言を起草。議会の設立、因習の打破、世界から知識を吸収することを誓った。近代日本の最初の法的基盤となった。"},
+      {tVi:"Đại diện Chōshū trong Tam Kiệt",tJp:"三傑における長州の代表",
+       vi:"Hoàn thành bộ ba Tam Kiệt cùng Saigō (Satsuma) và Ōkubo (Satsuma). Ông là giọng nói ôn hòa, nhiều lần làm cầu nối khi hai người kia xung đột. Tham gia Sứ đoàn Iwakura sang phương Tây.",
+       jp:"西郷（薩摩）と大久保（薩摩）と共に三傑を構成。穏健派として両者の対立を仲裁し、岩倉使節団にも参加した。"},
+    ],
+    quote:{vi:'"Trên dưới đồng lòng — đó là sức mạnh của quốc gia." — Thề 5 điều, 1868',jp:"上下心を一にして、盛んに経綸を行うべし。—五箇条の御誓文、1868年"},
+    fate:{type:"gray",vi:"Mất vì bệnh năm 1877 — 43 tuổi. Cùng năm Saigō tự sát.",jp:"1877年、病のため43歳で逝去。西郷が自刃した同じ年のことだった。"}
+  },
+  {
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Iwakura_Tomomi.jpg/220px-Iwakura_Tomomi.jpg",
+    group:"Duy Tân Ngũ Kiệt Mới · 新維新五傑", gClass:"g3",
+    name:"Iwakura Tomomi", kanji:"岩倉具視",
+    roleVi:"Ngoại giao & nội chính", roleJp:"外交・内政の柱",
+    tagVi:"Quý tộc triều đình duy nhất — cầu nối giữa Thiên hoàng và phe Duy Tân.",
+    tagJp:"唯一の公家出身者—天皇と維新勢力をつなぐ橋渡し役。",
+    sections:[
+      {tVi:"Sứ đoàn Iwakura 1871-1873",tJp:"岩倉使節団1871-1873",
+       vi:"Dẫn đầu phái đoàn 50 quan chức và 60 học sinh đi khắp 12 nước — Mỹ, Anh, Pháp, Đức, Nga... Mục đích: đàm phán sửa hiệp ước bất bình đẳng và học cách xây nhà nước hiện đại. Báo cáo 100 tập về phương Tây thành cẩm nang hiện đại hóa Nhật.",
+       jp:"50名の高官と60名の学生を率いて12ヶ国を歴訪。不平等条約の改正交渉と近代国家建設の学習が目的。100巻に及ぶ報告書が日本近代化の手引きとなった。"},
+      {tVi:"Vai trò chính trị thiết yếu",tJp:"不可欠な政治的役割",
+       vi:"Là quý tộc triều đình (kuge) — địa vị hoàng gia cho phép ông làm trung gian giữa Thiên hoàng và các phiên võ sĩ. Không có ông, Duy Tân thiếu danh nghĩa pháp lý từ hoàng thất.",
+       jp:"公家としての地位が天皇と武家の仲介を可能にした。彼なくして、維新は皇室からの正統性を欠いていたであろう。"},
+    ],
+    quote:{vi:'"Nhật Bản phải học phương Tây — không phải để bắt chước, mà để bằng."',jp:"日本は西洋に学ぶべきだ—模倣のためではなく、対等になるために。"},
+    fate:{type:"gray",vi:"Mất vì bệnh năm 1883 — 59 tuổi. Không kịp thấy Hiến pháp 1889.",jp:"1883年、病のため59歳で逝去。1889年の憲法を見届けることはなかった。"}
+  },
+  {
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Ito_Hirobumi_official_2.jpg/220px-Ito_Hirobumi_official_2.jpg",
+    group:"Duy Tân Ngũ Kiệt Mới · 新維新五傑", gClass:"g3",
+    name:"Itō Hirobumi", kanji:"伊藤博文",
+    roleVi:"Cha đẻ Hiến pháp Nhật Bản", roleJp:"日本国憲法の父",
+    tagVi:"Học trò Yoshida Shōin — soạn Hiến pháp đầu tiên châu Á. 4 lần Thủ tướng.",
+    tagJp:"吉田松陰の弟子—アジア初の憲法を制定。4度首相を務めた。",
+    sections:[
+      {tVi:"21 tuổi bí mật sang Anh",tJp:"21歳、命がけのイギリス留学",
+       vi:"Năm 1863 bí mật xuống tàu sang Anh khi xuất ngoại còn là tội tử hình. Chỉ vài tháng thấy tàu chiến và nhà máy phương Tây — về ngay thuyết phục đồng bào: không thể đánh Tây bằng kiếm được.",
+       jp:"1863年、鎖国下で渡航が死罪だった時代に密かにイギリスへ。西洋の軍艦と工場を目にし、すぐに帰国して「刀で西洋には勝てない」と説いた。"},
+      {tVi:"Hiến pháp Minh Trị 1889",tJp:"大日本帝国憲法1889年",
+       vi:"1882 sang châu Âu 1,5 năm nghiên cứu Hiến pháp Phổ/Đức. Về nước soạn Hiến pháp Minh Trị 1889 — bản hiến pháp đầu tiên của châu Á. Quốc hội (帝国議会) ra đời 1890.",
+       jp:"1882年に欧州でプロイセン・ドイツ型憲法を研究。帰国後に大日本帝国憲法を起草—アジア初の憲法。1890年に帝国議会が開設された。"},
+    ],
+    quote:{vi:'"Nhật Bản phải hiểu tại sao phương Tây mạnh — không chỉ học bề ngoài."',jp:"日本は西洋が強い理由を理解しなければならない—表面だけでなく。"},
+    fate:{type:"red",vi:"Bị An Trọng Căn ám sát tại ga Harbin năm 1909 — 68 tuổi. Cái chết trở thành cớ Nhật thôn tính Triều Tiên 1910.",jp:"1909年、ハルビン駅で安重根に暗殺される。68歳。この死が1910年の韓国併合の口実となった。"}
+  },
+  {
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Okuma_Shigenobu_old.jpg/220px-Okuma_Shigenobu_old.jpg",
+    group:"Duy Tân Ngũ Kiệt Mới · 新維新五傑", gClass:"g3",
+    name:"Ōkuma Shigenobu", kanji:"大隈重信",
+    roleVi:"Tài chính & Đại học Waseda", roleJp:"財政改革と早稲田大学",
+    tagVi:"Xây hệ thống tài chính quốc gia. Sáng lập Waseda — danh giá đến ngày nay.",
+    tagJp:"国家財政を構築。早稲田大学を創立—今日も名門として輝く。",
+    sections:[
+      {tVi:"Xây tài chính quốc gia từ đầu",tJp:"国家財政をゼロから構築",
+       vi:"Phụ trách xây dựng hệ thống tài chính Nhật Bản từ đầu — tiền tệ thống nhất, ngân sách quốc gia, hệ thống thuế. Công việc khổng lồ trong bối cảnh đất nước vừa thống nhất còn loạn lạc.",
+       jp:"統一通貨、国家予算、税制など日本の財政システムをゼロから構築。国家統一直後の混乱の中での大事業だった。"},
+      {tVi:"Đại học Waseda 1882",tJp:"早稲田大学1882年",
+       vi:"Sáng lập Trường chuyên tu học xã (nay là Đại học Waseda) với triết lý: giáo dục phải độc lập với nhà nước, phục vụ xã hội. Waseda và Keiō của Fukuzawa là hai trường danh giá nhất Nhật Bản đến nay.",
+       jp:"「教育は国家から独立し、社会に奉仕すべき」との理念で早稲田大学（前身）を創立。福沢の慶應と並び、日本の私立名門として今日に至る。"},
+    ],
+    quote:{vi:'"Giáo dục không phải của nhà nước — giáo dục là của nhân dân."',jp:"教育は国家のものではなく、国民のものである。"},
+    fate:{type:"gray",vi:"Mất vì bệnh năm 1922 — 83 tuổi. Thọ nhất trong các chính khách Duy Tân.",jp:"1922年、83歳で逝去。維新政治家の中で最も長命だった。"}
+  },
+  {
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Fukuzawa_Yukichi.jpg/220px-Fukuzawa_Yukichi.jpg",
+    group:"Duy Tân Ngũ Kiệt Mới · 新維新五傑", gClass:"g3",
+    name:"Fukuzawa Yukichi", kanji:"福沢諭吉",
+    roleVi:"Nhà khai sáng — cha đẻ tư tưởng hiện đại", roleJp:"啓蒙思想家",
+    tagVi:"Không làm quan, không cầm súng — thay đổi tư duy cả dân tộc bằng ngòi bút.",
+    tagJp:"官僚にも武人にもならず—筆一本で国民の思想を変えた。",
+    sections:[
+      {tVi:"Khuyến học — 3,4 triệu bản",tJp:"学問のすすめ—340万部",
+       vi:"Xuất bản 1872-1876, bán được 3,4 triệu bản khi dân số Nhật chỉ 35 triệu. Câu mở đầu nổi tiếng nhất lịch sử Nhật: 'Trời không tạo ra người trên kẻ dưới.' Thay đổi cách người Nhật nhìn về bản thân và xã hội.",
+       jp:"1872〜76年出版。人口3500万の日本で340万部を売り上げた。「天は人の上に人を造らず」—日本史上最も有名な書き出しで、国民の自己認識を変えた。"},
+      {tVi:"Keiō & con đường trí thức độc lập",tJp:"慶應と独立した知識人の道",
+       vi:"Từ chối mọi lời mời làm quan — dù được mời nhiều lần. Sáng lập Keiō Gijuku (nay là Đại học Keiō). Mặt in trên tờ 10.000 yên từ 1984 đến 2024.",
+       jp:"度重なる出仕の要請を断り、慶應義塾（現慶應大学）を創立。1984〜2024年まで一万円札に肖像が使われた。"},
+    ],
+    quote:{vi:'"天は人の上に人を造らず、人の下に人を造らず。\nTrời không tạo ra người trên kẻ dưới, người dưới kẻ trên.\nSự chênh lệch đến từ học vấn."',jp:"天は人の上に人を造らず、人の下に人を造らずと言えり。—学問のすすめ、1872年"},
+    fate:{type:"gray",vi:"Mất vì bệnh năm 1901 — 66 tuổi. Mặt in trên tờ 10.000 yên đến 2024.",jp:"1901年、66歳で逝去。2024年まで一万円札の肖像として使われた。"}
+  },
+  {
+    photo:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Shibusawa_Eiichi.jpg/220px-Shibusawa_Eiichi.jpg",
+    group:"Duy Tân Ngũ Kiệt Mới · 新維新五傑", gClass:"g3",
+    name:"Shibusawa Eiichi", kanji:"渋沢栄一",
+    roleVi:"Cha đẻ chủ nghĩa tư bản Nhật Bản", roleJp:"日本資本主義の父",
+    tagVi:"Từ nông dân → lập hơn 500 công ty. Xây toàn bộ nền kinh tế thị trường Nhật Bản.",
+    tagJp:"農民の出身から500社以上を設立。日本の市場経済全体を構築した。",
+    sections:[
+      {tVi:"Nông dân → 500 công ty",tJp:"農民→500社以上",
+       vi:"Sinh 1840 tại Saitama, con nhà nông. Không phải samurai. Thời Mạc phủ nông dân không được học chữ Hán, không được cầm kiếm. Sau Duy Tân từ chối làm quan — chọn con đường doanh nghiệp. Sáng lập Ngân hàng Quốc gia đầu tiên, công ty dệt, bảo hiểm, đường sắt, xi măng, bia, giấy... tham gia thành lập hơn 500 công ty.",
+       jp:"1840年埼玉生まれの農民の子。武士ではない。明治後、出仕を断り実業の道へ。第一国立銀行、紡績、保険、鉄道、セメント、ビール、製紙など500社以上の設立に関わった。"},
+      {tVi:"Luận Ngữ và sổ sách kế toán",tJp:"論語と算盤",
+       vi:"Viết 'Luận Ngữ và sổ sách kế toán' — lập luận đạo đức Khổng Tử và kinh doanh hiện đại không mâu thuẫn nhau. Mặt in trên tờ 10.000 yên mới từ 2024 (thay Fukuzawa).",
+       jp:"「論語と算盤」を著し、儒教の道徳と近代ビジネスは矛盾しないと論じた。2024年から新一万円札の肖像に採用（福沢と交代）。"},
+    ],
+    quote:{vi:'"道徳経済合一説 — Đạo đức và kinh tế là một, không thể tách rời."',jp:"道徳経済合一説—道徳と経済は分離できない。"},
+    fate:{type:"green",vi:"Mất vì bệnh năm 1931 — 91 tuổi. Thọ nhất trong 10 người. Mặt in 10.000 yên mới từ 2024.",jp:"1931年、91歳で逝去。10人の中で最長寿。2024年から新一万円札の肖像となった。"}
+  }
+];
+
+const gColors = {g1:{bg:"#f0edf8",color:"#3a2550"},g2:{bg:"#fdf0ee",color:"#7a1818"},g3:{bg:"#e8f5f0",color:"#145040"}};
+const fateColors = {red:{bg:"#fdf0ee",border:"rgba(139,26,26,.2)"},gray:{bg:"#f5f3ef",border:"rgba(0,0,0,.1)"},green:{bg:"#e8f5f0",border:"rgba(26,92,74,.2)"}};
+
+function openModal(idx){
+  const p=people[idx];
+  const gc=gColors[p.gClass];
+  document.getElementById('mPhoto').src=p.photo;
+  document.getElementById('mPhoto').alt=p.name;
+  const mg=document.getElementById('mGroup');
+  mg.textContent=p.group; mg.style.background=gc.bg; mg.style.color=gc.color;
+  document.getElementById('mName').textContent=p.name;
+  document.getElementById('mKanji').textContent=p.kanji;
+  document.getElementById('mRoleVi').textContent=p.roleVi;
+  document.getElementById('mRoleJp').textContent=p.roleJp;
+
+  let body=`
+    <div class="modal-section">
+      <div class="modal-section-title">Tổng quan · 概要</div>
+      <div class="modal-text-vi">${p.tagVi}</div>
+      <div class="modal-text-jp">${p.tagJp}</div>
+    </div>`;
+
+  p.sections.forEach(s=>{
+    body+=`<div class="modal-section">
+      <div class="modal-section-title">${s.tVi}</div>
+      <span class="modal-section-title-jp">${s.tJp}</span>
+      <div class="modal-text-vi">${s.vi}</div>
+      <div class="modal-text-jp">${s.jp}</div>
+    </div>`;
+  });
+
+  const fc=fateColors[p.fate.type];
+  body+=`
+    <div class="modal-section">
+      <div class="modal-section-title">Câu nói nổi tiếng · 名言</div>
+      <div class="modal-quote">
+        <div class="modal-quote-text">${p.quote.vi.replace(/\n/g,'<br>')}</div>
+        <div class="modal-quote-jp">${p.quote.jp}</div>
+        <div class="modal-quote-attr">— ${p.name} ${p.kanji}</div>
+      </div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">Kết cục · 最期</div>
+      <div class="modal-fate-box" style="background:${fc.bg};border:1px solid ${fc.border}">
+        <div class="modal-text-vi">${p.fate.vi}</div>
+        <div class="modal-text-jp" style="margin-top:6px;">${p.fate.jp}</div>
+      </div>
+    </div>`;
+
+  document.getElementById('mBody').innerHTML=body;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(e){if(e.target===document.getElementById('modalOverlay'))closeModalDirect();}
+function closeModalDirect(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+</script>
+</body>
+</html>
